@@ -4,7 +4,7 @@ class TasksController < ApplicationController
   before_action :correct_user
   
   def index
-      @tasks = Task.all.page(params[:page])
+     @tasks = Task.all.page(params[:page])
       #Task.all
   end
 
@@ -12,18 +12,20 @@ class TasksController < ApplicationController
   end
 
   def new
-      @task = Task.new
+    @task = Task.new
   end
 
   def create
-      @task = Task.new(task_params)
+    #@task = current_user.tasks.build(task_params)
+    @task = Task.new(task_params)
 
     if @task.save
       flash[:success] = 'Task が正常に投稿されました'
-      redirect_to @task
+      redirect_to @task #root_url
     else
+      #@task = current_user.tasks.order(id: :desc).page(params[:page])
       flash.now[:danger] = 'Task が投稿されませんでした'
-      render :new
+      render :new #'toppages/index'
     end
   end
 
@@ -42,9 +44,8 @@ class TasksController < ApplicationController
 
   def destroy
       @task.destroy
-      
       flash[:success] = 'Task は正常に更新されました'
-      redirect_to tasks_url
+      redirect_to tasks_url #redirect_back(fallback_location: root_path)
   end
 
   private

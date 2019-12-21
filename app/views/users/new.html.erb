@@ -1,14 +1,5 @@
 <%= form_with(model: @user, local: true) do |f| %>
       <%= render 'layouts/error_messages', model: f.object %>
-
-<div class="text-center">
-  <h1>Sign up</h1>
-</div>
-
-<div class="row">
-  <div class="col-sm-6 offset-sm-3">
-
-    <%= form_with(model: @user, local: true) do |f| %>
       
       <div class="form-group">
         <%= f.label :name, 'Name' %>
@@ -31,6 +22,4 @@
       </div>
 
       <%= f.submit 'Sign up', class: 'btn btn-primary btn-block' %>
-    <% end %>
-  </div>
-</div>
+<% end %>
