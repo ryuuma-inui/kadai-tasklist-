@@ -1,10 +1,11 @@
 class TasksController < ApplicationController
   before_action :require_user_logged_in
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-  #before_action :correct_user, only: [:destroy]
+  before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
   def index
-     @tasks = Task.all.page(params[:page])
+     @tasks = current_user.tasks.page(params[:page])
+     #@tasks = Task.where(user_id: current_user.id).page(params[:page])
       #Task.all
   end
 
@@ -47,6 +48,7 @@ class TasksController < ApplicationController
       flash[:success] = 'Task は正常に更新されました'
       #redirect_back(fallback_location: root_path)
       redirect_to tasks_url
+      #
   end
 
   private
@@ -61,8 +63,8 @@ class TasksController < ApplicationController
   end
   
   def correct_user
-    @micropost = current_user.microposts.find_by(id: params[:id])
-    unless @micropost
+    @task = current_user.tasks.find_by(id: params[:id])
+    unless @task
       redirect_to root_url
     end
   end
